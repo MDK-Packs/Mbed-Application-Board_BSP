@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="PACK.xsd" schemaVersion="1.6.0">
+  <name>Mbed-Application-Board_BSP</name>
+  <vendor>MDK-Packs</vendor>
+  <description>Board support pack for the Mbed Application Board</description>
+  <!-- empty until the pack gets published -->
+<url>https://github.com/MDK-Packs/Pack/raw/master/Mbed-Application-Board_BSP/</url>
+<repository type="git">https://github.com/MDK-Packs/Mbed-Application-Board_BSP.git</repository>
+  <license>LICENSE</license>
+  <releases>
+    <release version="0.3.0" date="2021-07-12">
+      Initial Release
+    </release>
+  </releases>
+
+<requirements>
+  <packages>
+    <package vendor="Keil" name="LPC1700_DFP" version="2.6.0"/>
+    <package vendor="MDK-Packs" name="Mbed-LPC1768_DFP"/>
+  </packages>
+</requirements>
+
+<conditions>
+  <condition id="LPC1768">
+    <description>NXP LPC55S69 Devices</description>
+    <require Dvendor="NXP:11" Dname="LPC1768*"/>
+  </condition>
+  <condition id="Mbed-Application-Board VIO">
+    <description>Virtual I/O driver</description>
+    <require condition="LPC1768"/>
+    <require Cclass="Device" Cgroup="GPIO"/>
+    <require Cclass="Device" Cgroup="PIN"/>
+    <require Cclass="Device" Cgroup="Startup"/>
+  </condition>
+</conditions>
+
+  <components>
+<!-- VIO driver -->
+<component Cclass="CMSIS Driver" Cgroup="VIO" Csub="Board" Cvariant="Mbed-Application-Board" Cversion="1.0.1" Capiversion="0.1.0" condition="Mbed-Application-Board VIO">
+  <description>Virtual I/O implementation for NXP Mbed-Application-Board Board</description>
+  <RTE_Components_h>
+        #define RTE_VIO_BOARD
+        #define RTE_VIO_MBEDAPPLICATION_BOARD
+  </RTE_Components_h>
+  <files>
+    <file category="source" name="Drivers/Platform/vio_Mbed-Application-Board.c"/>
+  </files>
+</component>
+  </components>
+
+<boards>
+  <board vendor="Mbed" name="Mbed-Application-Board" revision="1.0" orderForm="http://mbed.org/handbook/Order">
+    <description>Rapid Prototyping for general microcontroller applications, Ethernet, USB and 32-bit Arm Cortex-M3 based designs.</description>
+    <image small="Documentation/app_board_front_small_map1.png" large="Documentation/app_board_front_small_map1.png"/>
+    
+    <mountedDevice deviceIndex="0" Dvendor="NXP:11" Dname="LPC1768"/>
+
+    <compatibleDevice deviceIndex="0" Dvendor="NXP:11" Dfamily="LPC1700 Series"/>
+    <book category="overview" name="https://os.mbed.com/components/mbed-Application-Board/" title="Mbed Application Board Web Page"/>
+    <book category="schematic" name="Documentation/mbed-014.1_b.pdf" title="Schematics"/>
+    <book category="other" name="Documentation/README.md" title="Guide"/>
+    
+    <feature type="PWR" n="5" name="USB Powered"/>
+    <feature type="PWR" n="6" m="9" name="DC Kack, CLIFF FC68145S"/>
+    <feature type="Edge" n="2" m="20" name="40-pin, 1.27 mm Pitch header for Mbed LPC1768 or L-Tek FF-LPC546XX"/>
+    <feature type="ETH" n="1" name="RJ45, Pulse Jack J00-0045NL"/>
+    <feature type="CAN" n="1" name="2-Pin Header, 1.27 mm Pitch"/>
+    <feature type="LCD" n="1" m="128.32" name="Graphics LCD with SPI I/F, Newhaven C12832A1Z"/>
+    <feature type="Speaker" n="1" name="Speaker, MULTICOMP MCSMT-8030B-3717"/>
+    <feature type="ConnOther" n="1" name="ZigBee (XBee) Socket"/>
+    <feature type="ContOther" n="2" name="Servo Motor Headers"/>
+    <feature type="LineIn" n="1" name="TRS Audio Jack, CUI Inc SJ-3523-SMT"/>
+    <feature type="LineOut" n="1" name="TRS Audio Jack, CUI Inc SJ-3523-SMT"/>
+    <feature type="TempSens" n="1" name="Temperature Sensor, LM75B"/>
+    <feature type="Accelerometer" n="1" name="3-axis digital Accelerometer, NXP MMA7660"/>
+    <feature type="Poti" n="2" name="Potentiometers, Iskra PNZ10ZA"/>
+    <feature type="Joystick" n="1" name="5-position Joystick, ALPS SKRHADE010"/>
+    <feature type="LED" n="1" name="User RGB LED, Cree Inc CLV1A-FKB"/>
+    <feature type="CustomFF" n="55" m="86" name="Custom Formfactor"/>
+  </board>
+</boards>
+
+<examples>
+  <example name="Blinky" doc="README.md" folder="Projects/Mbed-Application-Board_VIO">
+    <description>CMSIS-RTOS2 RGB Blinky example with VIO</description>
+    <board name="Mbed-Application-Board" vendor="Mbed"/>
+    <project>
+      <environment name="uv" load="Blinky.uvprojx"/>
+    </project>
+    <attributes>
+      <component Cclass="Device" Cgroup="Startup"/>
+      <component Cclass="CMSIS" Cgroup="CORE"/>
+      <component Cclass="CMSIS" Cgroup="RTOS"/>
+      <component Cclass="CMSIS Driver" Cgroup="VIO"/>
+      <category>Getting Started</category>
+    </attributes>
+  </example>
+</examples>
+</package>
