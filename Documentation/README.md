@@ -6,8 +6,6 @@ The Mbed Application Board board is designed for prototyping all sorts of device
 
 ## Pinout
 
-![Mbed Application Board Pin-Out](./lpc1768_pinout.png "Mbed Application Board Pin-Out")
-
 | Socket Pin | Interface          | Function     |
 |------------|--------------------|--------------|
 | GND        |                    | Ground       |
